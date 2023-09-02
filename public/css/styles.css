@@ -1,0 +1,54 @@
+*
+{
+    overflow-x: hidden;
+
+}
+.no-padding {
+    padding: 0 !important;
+}
+
+#oceanLogo
+{
+    max-height: 175px;
+}
+
+#navigation
+{
+    padding-left: 50px;
+    padding-right: 50px;
+}
+.nav-link:hover
+{   
+    text-decoration: underline;
+}
+.navbar
+{
+    transition: all 0.5s;
+}
+.navbar-scrolled
+{   
+    background-color: #1768AC;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+#fields
+{
+    min-width: 60%;
+}
+
+#vod video
+{
+    transition: opacity 2s ease-in-out;
+}
+#vod video.hide
+{
+    opacity: 0;
+}
+
+.page
+{
+    background-color:#06BEE1;
+}
+.titles
+{
+    font-family: 'Playfair Display', serif;
+}
