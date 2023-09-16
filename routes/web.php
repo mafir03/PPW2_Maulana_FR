@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BukuController;
 use App\Http\Controllers\MainController;
 
 use Illuminate\Support\Facades\Route;
@@ -19,4 +20,5 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', [MainController::class, 'connectHome']);
+
+Route::get('/buku', [BukuController::class, 'index']);

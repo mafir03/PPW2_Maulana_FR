@@ -2,16 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buku;
 use Illuminate\Http\Request;
 
-class MainController extends Controller
+class BukuController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $data_buku = Buku::all();
+        $row_amount = Buku::count();
+        $price_amount = Buku::sum('harga');
+        $no = 0;
+        return view('buku', compact('data_buku', 'no', 'row_amount', 'price_amount'));
     }
 
     /**
@@ -60,13 +65,5 @@ class MainController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-    public function connectHome()
-    {
-        return view("home",[
-            "name" => "breadget",
-            "is" => "totally adorbs"
-        ]);
     }
 }

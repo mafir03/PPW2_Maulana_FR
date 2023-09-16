@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bridge(s)', function(Blueprint $table){
-            $table->increments("id_bridge");
-            $table->string("bridge_location");
-            $table->integer("bridge_age");
+        Schema::create('buku', function (Blueprint $table) {
+            $table->id();
+            $table->string('judul');
+            $table->string('penulis');
+            $table->integer('harga');
+            $table->date('tgl_terbit');
             $table->timestamps();
         });
     }
