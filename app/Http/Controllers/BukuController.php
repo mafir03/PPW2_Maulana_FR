@@ -24,7 +24,7 @@ class BukuController extends Controller
      */
     public function create()
     {
-        //
+        return view('buku.create');
     }
 
     /**
@@ -32,7 +32,13 @@ class BukuController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Buku::create([
+            'judul' => $request->judul,
+            'penulis' => $request->penulis,
+            'harga'=>$request->harga,
+            'tgl_terbit'=>$request->tgl_terbit,
+        ]);
+        return redirect('/buku');
     }
 
     /**
@@ -64,6 +70,8 @@ class BukuController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $buku = Buku::find($id);
+        $buku->delete();
+        return redirect('/buku');
     }
 }
