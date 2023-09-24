@@ -9,7 +9,8 @@
                 <th>Penulis</th>
                 <th>Harga</th>
                 <th>Tgl. Terbit</th>
-                <th>Aksi</th>  
+                <th>Hapus</th>
+                <th>Update</th>  
             </thead>
             <tbody>
                 @foreach($data_buku as $buku)
@@ -26,6 +27,9 @@
                                 <button class="btn btn-primary" 
                                 onclick="return confirm('Yakin mau diapus?')">Hapus</button>
                             </form>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" href="{{ route('buku.edit', $buku->id) }}">Update</a>
                         </td>
                     </tr>
                 @endforeach
