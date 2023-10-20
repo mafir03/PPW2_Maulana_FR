@@ -1,9 +1,10 @@
 @extends('layout')
 
 @section('content')
-    @if(Session::has('pesan'))
-        <div class="alert alert-success">{{Session::get('pesan')}}</div>
-    @endif
+    @if(count($data_buku))
+        <div class="alert alert-success">
+        Ditemukan <strong>{{count($data_buku)}}</strong> data dengan kata : <strong> {{$cari}}</strong>
+        </div>
     <div class="row">
         <div class="container row">
             <form action="{{route('buku.search')}}" method="get">
@@ -52,6 +53,11 @@
             <h3 class="col-6">Jumlah semua harga buku: {{$price_amount}}</h3>
             <p><a href="{{ route('buku.create') }}">Tambah Buku</a></p>
         </div>
+        @else
+            <div class="alert alert-warning"><h4>Data {{ $cari } tidak ditemukan}</h4>
+            <a href="/buku" class="btn btn-warning">Kembali</a>
+            </div>
+        @endif
         <script type="text/javascript">
                 $('.date').datepicker({
                     format:'yyyy/mm/dd',

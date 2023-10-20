@@ -20,7 +20,7 @@
             </div>
             <div class="form-group">
                 <label for="tgl_terbit">Tgl. Terbit</label>
-                <input type="text" class="form-control" id="tgl_terbit" name="tgl_terbit" placeholder="Tgl. Terbit buku">
+                <input type="date" class="form-control" id="tgl_terbit" name="tgl_terbit" placeholder="Tgl. Terbit buku">
             </div>
             <div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
@@ -28,5 +28,10 @@
             </div>
         </form>
     </div>
-
+    <script type="text/javascript">
+                $('.date').datepicker({
+                    format:'yyyy/mm/dd',
+                    autoclose: 'true'
+                });
+    </script>
 @endsection
