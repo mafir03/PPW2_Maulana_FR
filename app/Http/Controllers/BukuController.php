@@ -18,7 +18,7 @@ class BukuController extends Controller
         $row_amount = Buku::count();
         $price_amount = Buku::sum('harga');
         $no = $batas * ($data_buku->currentPage() - 1);
-        return view('buku', compact('data_buku', 'no', 'row_amount', 'price_amount', 'jumlah_buku'));
+        return view('dashboard', compact('data_buku', 'no', 'row_amount', 'price_amount', 'jumlah_buku'));
     }
 
     /**
@@ -47,7 +47,7 @@ class BukuController extends Controller
             'harga'=>$request->harga,
             'tgl_terbit'=>$request->tgl_terbit
         ]);
-        return redirect('/buku')->with('pesan', 'Data buku berhasil disimpan');
+        return redirect('/dashboard')->with('pesan', 'Data buku berhasil disimpan');
     }
 
     /**
@@ -79,7 +79,7 @@ class BukuController extends Controller
             'harga'=>$request->harga,
             'tgl_terbit'=>$request->tgl_terbit,
         ]);
-        return redirect('/buku');
+        return redirect('/dashboard');
     }
 
     /**
@@ -89,7 +89,7 @@ class BukuController extends Controller
     {
         $buku = Buku::find($id);
         $buku->delete();
-        return redirect('/buku');
+        return redirect('/dashboard');
     }
 
     public function search(Request $request) {
