@@ -23,8 +23,10 @@
                 <th>Penulis</th>
                 <th>Harga</th>
                 <th>Tgl. Terbit</th>
-                <th>Hapus</th>
-                <th>Update</th>  
+                @if(Auth::user()->role == 'admin')
+                    <th>Hapus</th>
+                    <th>Update</th>
+                @endif
             </thead>
             <tbody>
                 @foreach($data_buku as $buku)
@@ -34,16 +36,18 @@
                         <td>{{ $buku->penulis }}</td>
                         <td>{{ "Rp ".number_format($buku->harga, 0, ',', '.') }}</td>
                         <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d-m-Y') }}</td>
-                        <td>
-                            <form action="{{ route('buku.destroy', $buku->id) }}" method="post">
-                                @csrf
-                                <button class="btn btn-primary" 
-                                onclick="return confirm('Yakin mau diapus?')">Hapus</button>
-                            </form>
-                        </td>
-                        <td>
-                            <a class="btn btn-primary" href="{{ route('buku.edit', $buku->id) }}">Update</a>
-                        </td>
+                        @if(Auth::user()->role == 'admin')
+                            <td>
+                                <form action="{{ route('buku.destroy', $buku->id) }}" method="post">
+                                    @csrf
+                                    <button class="btn btn-primary" 
+                                    onclick="return confirm('Yakin mau diapus?')">Hapus</button>
+                                </form>
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="{{ route('buku.edit', $buku->id) }}">Update</a>
+                            </td>
+                        @endif
                     </tr>
                 @endforeach
             </tbody>
