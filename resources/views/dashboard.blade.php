@@ -6,9 +6,11 @@
     </x-slot>
     <x-slot name="content">
         <div class="container row">
+            @if(Auth::user()->role == 'admin')
             <div class="col-4">
                 <p><a class="btn btn-primary" href="{{ route('buku.create') }}">Tambah Buku</a></p>
             </div>
+            @endif
             <div class="col-8">
                 <form action="{{route('buku.search')}}" method="get">
                     @csrf
