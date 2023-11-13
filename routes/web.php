@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,9 +29,10 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::get('/dashboard/create', [BukuController::class, 'create'])->name('buku.create');
         Route::post('/dashboard/store', [BukuController::class, 'store'])->name('buku.store');
-        Route::post('/dashboard/destroy/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
+        Route::post('/dashboard/destroy/buku/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
         Route::get('/dashboard/edit/{id}', [BukuController::class, 'edit'])->name('buku.edit');
         Route::post('/dashboard/update/{id}', [BukuController::class, 'update'])->name('buku.update');
+        Route::post('/dashboard/destroy/gallery/{id}',[GalleryController::class, 'destroy'])->name("gallery.destroy");
     });
     Route::get('/dashboard/search', [BukuController::class, 'search'])->name('buku.search');
 

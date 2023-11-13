@@ -21,6 +21,7 @@
         <table class="table table-sm table-striped table-condensed">
             <thead>
                 <th>NO</th>
+                <th>Gambar</th>
                 <th>Judul Buku</th>
                 <th>Penulis</th>
                 <th>Harga</th>
@@ -34,6 +35,14 @@
                 @foreach($data_buku as $buku)
                     <tr>
                         <td>{{ ++$no }}</td>
+                        <td>
+                            @if($buku->filepath)
+                                <div class="relative h-10 w-10">
+                                    <img class="absolute h-10 w-10 rounded-full object-cover"
+                                     src="{{ $buku->filepath }}" alt="">
+                                </div>
+                            @endif
+                        </td>
                         <td>{{ $buku->judul }}</td>
                         <td>{{ $buku->penulis }}</td>
                         <td>{{ "Rp ".number_format($buku->harga, 0, ',', '.') }}</td>

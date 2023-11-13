@@ -14,7 +14,7 @@
         @endif
         <div class="container">
             <h4>Tambah buku</h4>
-            <form method="post" action="{{ route('buku.store') }}">
+            <form method="post" action="{{ route('buku.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label for="judul">Judul</label>
@@ -32,9 +32,26 @@
                     <label for="tgl_terbit">Tgl. Terbit</label>
                     <input type="date" class="form-control" id="tgl_terbit" name="tgl_terbit" placeholder="yyyy/mm/dd">
                 </div>
-                <div>
+                <div class="mt-2">
+                    <div>File Name</div>
+                    <input type="file" class="btn btn-outline-primary" id="thumbnail" name="thumbnail" placeholder="Thumbnail">
+                </div>
+                <div class="mt-2 mb-2">
                     <button type="submit" class="btn btn-outline-primary">Simpan</button>
-                    <a href="/buku">Batal</a>
+                    <a class="btn btn-outline-primary"href="/dashboard">Batal</a>
+                </div>
+                <div class="form-group">
+                    <label for="filepath">Gallery</label>
+                    <div id="fileinput_wrapper" class="mt-2 mb-2">
+
+                    </div>
+                    <a href="javascript:void(0)" onclick="addFileInput()" class="btn btn-outline-primary">Tambah</a>
+                    <script type="text/javascript">
+                        function addFileInput() {
+                            var div = document.getElementById('fileinput_wrapper');
+                            div.innerHTML += '<input type="file" class="btn btn-outline-primary mb-2" id="gallery" name="gallery[]" placeholder="Gallery">';
+                        }
+                    </script>
                 </div>
             </form>
         </div>

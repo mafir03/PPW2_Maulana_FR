@@ -3,7 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\Gallery;
+use Exception;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
+
 
 class BukuController extends Controller
 {
@@ -39,15 +43,42 @@ class BukuController extends Controller
             'penulis' => 'required|string|max:30',
             'harga' => 'required|numeric',
             'tgl_terbit' => 'required|date',
+            'thumbnail' => "image|mimes:jpeg,png,jpg|max:4192"
         ]);
+
+        try{$file = $request->file('thumbnail');
+            if($file) {$filename = time().'_'.$file->getClientOriginalName();
+            } else {throw new Exception('File not found');}
+        } catch(Exception $e) {return redirect()->back()->with('pesan', 'File thumbnail tidak ditemukan');}
+
+        $filepath = $request->file('thumbnail')->storeAs('uploads', $filename, 'public');
+        Image::make(storage_path().'/app/public/uploads/'.$filename)
+            ->fit(240, 320)
+            ->save();
 
         Buku::create([
             'judul' => $request->judul,
             'penulis' => $request->penulis,
             'harga'=>$request->harga,
-            'tgl_terbit'=>$request->tgl_terbit
+            'tgl_terbit'=>$request->tgl_terbit,
+            'filename'=>$filename,
+            'filepath'=>'/storage/' . $filepath,
         ]);
-        return redirect('/dashboard')->with('pesan', 'Data buku berhasil disimpan');
+        
+        $buku = Buku::where('judul', $request->judul)->first();
+        $id = $buku->id;
+        if($request->file('gallery')) {
+            foreach($request->file('gallery') as $key => $file) {
+                $fileName = time().'_'.$file->getClientOriginalName();
+                $filePath = $file->storeAs('uploads', $fileName, 'public');
+                $gallery = Gallery::create([
+                    'nama_galeri' => $fileName,
+                    'path' => '/storage/'. $filePath,
+                    'foto' => $fileName,
+                    'buku_id' => $id
+                ]);
+            }
+        } return redirect('/dashboard')->with('pesan', 'Data buku berhasil disimpan');
     }
 
     /**
@@ -73,13 +104,44 @@ class BukuController extends Controller
     public function update(Request $request, string $id)
     {
         $buku = Buku::find($id);
+        $request->validate([
+            'thumbnail' => "image|mimes:jpeg,png,jpg|max:4192"
+        ]);
+
+        try{$file = $request->file('thumbnail');
+
+            if($file) {$filename = time().'_'.$file->getClientOriginalName();
+            } else {throw new Exception('File not found');}
+
+        } catch(Exception $e) {return redirect()->back()->with('pesan', 'File thumbnail tidak ditemukan');}
+
+        $filepath = $request->file('thumbnail')->storeAs('uploads', $filename, 'public');
+        Image::make(storage_path().'/app/public/uploads/'.$filename)
+            ->fit(240, 320)
+            ->save();
+
         $buku->update([
             'judul' => $request->judul,
             'penulis' => $request->penulis,
             'harga'=>$request->harga,
             'tgl_terbit'=>$request->tgl_terbit,
+            'filename'=>$filename,
+            'filepath'=>'/storage/' . $filepath
         ]);
-        return redirect('/dashboard');
+
+        if($request->file('gallery')) {
+            foreach($request->file('gallery') as $key => $file) {
+                $fileName = time().'_'.$file->getClientOriginalName();
+                $filePath = $file->storeAs('uploads', $fileName, 'public');
+                $gallery = Gallery::create([
+                    'nama_galeri' => $fileName,
+                    'path' => '/storage/'. $filePath,
+                    'foto' => $fileName,
+                    'buku_id' => $id
+                ]);
+            }
+        }
+        return redirect('/dashboard')->with('pesan', 'Data buku berhasil diupdate');
     }
 
     /**
