@@ -25,6 +25,16 @@ class BukuController extends Controller
         return view('dashboard', compact('data_buku', 'no', 'row_amount', 'price_amount', 'jumlah_buku'));
     }
 
+    public function publicIndex()
+    {
+        $batas = 7;
+        $jumlah_buku = Buku::count();
+        $data_buku = Buku::orderBy('id', 'desc')->paginate($batas);
+        $row_amount = Buku::count();
+        $price_amount = Buku::sum('harga');
+        $no = $batas * ($data_buku->currentPage() - 1);
+        return view('public.dashboard', compact('data_buku', 'no', 'row_amount', 'price_amount', 'jumlah_buku'));
+    }
     /**
      * Show the form for creating a new resource.
      */
@@ -35,6 +45,10 @@ class BukuController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     */
+
+    /**
+     * 
      */
     public function store(Request $request)
     {   
@@ -49,7 +63,7 @@ class BukuController extends Controller
         try{$file = $request->file('thumbnail');
             if($file) {$filename = time().'_'.$file->getClientOriginalName();
             } else {throw new Exception('File not found');}
-        } catch(Exception $e) {return redirect()->back()->with('pesan', 'File thumbnail tidak ditemukan');}
+        } catch(Exception $e) {return redirect()->back()->with('pesan', $e->getMessage());}
 
         $filepath = $request->file('thumbnail')->storeAs('uploads', $filename, 'public');
         Image::make(storage_path().'/app/public/uploads/'.$filename)
@@ -166,4 +180,10 @@ class BukuController extends Controller
         return view('buku.search', compact('data_buku', 'no', 'jumlah_buku', 'cari', 'row_amount', 'price_amount'));
     }
     
+
+    public function galeriBuku($title) {
+        $buku = Buku::where('judul', $title)->first();
+        $galleries = $buku->photos()->orderBy('id', 'desc')->paginate(6);
+        return view('public.galeri-buku', compact('buku', 'galleries'));
+    }
 }

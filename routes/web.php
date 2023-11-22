@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/public/dashboard', [BukuController::class, 'publicIndex'])->name('public.dashboard');
+Route::get('/public/galeri-buku/{id}', [BukuController::class, 'galeriBuku'])->name('public.galeri-buku');
+
+
 Route::get('/dashboard',[BukuController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

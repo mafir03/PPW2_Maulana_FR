@@ -1,26 +1,12 @@
 <x-app-layout>
     <x-slot name="dashboard">
-        @include('layouts.navigation')
     </x-slot>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
+            {{ __('Toko Buku Murah') }}
         </h2>
     </x-slot>
     <x-slot name="content">
-        <div class="container row">
-            @if(Auth::user()->role == 'admin')
-            <div class="col-4">
-                <p><a class="btn btn-primary" href="{{ route('buku.create') }}">Tambah Buku</a></p>
-            </div>
-            @endif
-            <div class="col-8">
-                <form action="{{route('buku.search')}}" method="get">
-                    @csrf
-                    <input type="text" name="kata" class="form-control" placeholder="Cari buku .." style="width: 30%; float: right">
-                </form>
-            </div>
-        </div>
         <table class="table table-sm table-striped table-condensed">
             <thead>
                 <th>NO</th>
@@ -29,10 +15,7 @@
                 <th>Penulis</th>
                 <th>Harga</th>
                 <th>Tgl. Terbit</th>
-                @if(Auth::user()->role == 'admin')
-                    <th>Hapus</th>
-                    <th>Update</th>
-                @endif
+                <th>Galeri</th>
             </thead>
             <tbody>
                 @foreach($data_buku as $buku)
@@ -50,18 +33,9 @@
                         <td>{{ $buku->penulis }}</td>
                         <td>{{ "Rp ".number_format($buku->harga, 0, ',', '.') }}</td>
                         <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d-m-Y') }}</td>
-                        @if(Auth::user()->role == 'admin')
-                            <td>
-                                <form action="{{ route('buku.destroy', $buku->id) }}" method="post">
-                                    @csrf
-                                    <button class="btn btn-primary" 
-                                    onclick="return confirm('Yakin mau diapus?')">Hapus</button>
-                                </form>
-                            </td>
-                            <td>
-                                <a class="btn btn-primary" href="{{ route('buku.edit', $buku->id) }}">Update</a>
-                            </td>
-                        @endif
+                        <td>
+                            <a class="btn btn-primary" href="{{ route('public.galeri-buku', $buku->judul) }}">Galeri</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
