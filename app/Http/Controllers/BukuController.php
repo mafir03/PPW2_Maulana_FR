@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Buku;
+use App\Models\BukuRating;
 use App\Models\Gallery;
 use Exception;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
+use Illuminate\Support\Facades\Log;
 
 
 class BukuController extends Controller
@@ -25,8 +27,8 @@ class BukuController extends Controller
         return view('dashboard', compact('data_buku', 'no', 'row_amount', 'price_amount', 'jumlah_buku'));
     }
 
-    public function galeriBuku($title) {
-        $buku = Buku::where('judul', $title)->first();
+    public function galeriBuku($id) {
+        $buku = Buku::where('id', $id)->first();
         $galleries = $buku->photos()->orderBy('id', 'desc')->paginate(6);
         return view('buku.galeri-buku', compact('buku', 'galleries'));
     }
@@ -42,8 +44,8 @@ class BukuController extends Controller
         return view('public.dashboard', compact('data_buku', 'no', 'row_amount', 'price_amount', 'jumlah_buku'));
     }
 
-    public function publicGaleriBuku($title) {
-        $buku = Buku::where('judul', $title)->first();
+    public function publicGaleriBuku($id) {
+        $buku = Buku::where('id', $id)->first();
         $galleries = $buku->photos()->orderBy('id', 'desc')->paginate(6);
         return view('public.galeri-buku', compact('buku', 'galleries'));
     }
@@ -192,6 +194,88 @@ class BukuController extends Controller
         return view('buku.search', compact('data_buku', 'no', 'jumlah_buku', 'cari', 'row_amount', 'price_amount'));
     }
     
+    public function setRating(Request $request, String $bukuId) {
+        $rating = $request->input("rating");
+        $rating_table = BukuRating::where('buku_id', $bukuId)->first();
+        dump($rating);
+        if($rating_table){
+            switch($rating){
+                case "1":
+                    $rating_table->update([
+                        'rating_1_count' => $rating_table->rating_1_count + 1,
+                    ]);
+                    break;
+                case "2":
+                    $rating_table->update([
+                        'rating_2_count' => $rating_table->rating_2_count + 1,
+                    ]);
+                    break;
+                case "3":
+                    $rating_table->update([
+                        'rating_3_count' => $rating_table->rating_3_count + 1,
+                    ]);
+                    break;
+                case "4":
+                    $rating_table->update([
+                        'rating_4_count' => $rating_table->rating_4_count + 1,
+                    ]);
+                    break;
+                case "5":
+                    $rating_table->update([
+                        'rating_5_count' => $rating_table->rating_5_count + 1,
+                    ]);
+                    break;
+            }
+        } else {
+            switch($rating){
+                case "1":
+                    BukuRating::create([
+                        'buku_id' => $bukuId,
+                        'rating_1_count' => 1,
+                    ]);
+                    break;
+                case "2":
+                    BukuRating::create([
+                        'buku_id' => $bukuId,
+                        'rating_2_count' => 1,
+                    ]);
+                    break;
+                case "3":
+                    BukuRating::create([
+                        'buku_id' => $bukuId,
+                        'rating_3_count' => 1,
+                    ]);
+                    break;
+                case "4":
+                    BukuRating::create([
+                        'buku_id' => $bukuId,
+                        'rating_4_count' => 1,
+                    ]);
+                    break;
+                case "5":
+                    BukuRating::create([
+                        'buku_id' => $bukuId,
+                        'rating_5_count' => 1,
+                    ]);
+                    break;
+            }
+        }
+        return redirect()->back();
+    }
 
-
+    public function getRating($bukuId) {
+        $rating_table = BukuRating::where('buku_id', $bukuId)->first();
+        if($rating_table){
+            $rating_1_count = $rating_table->rating_1_count;
+            $rating_2_count = $rating_table->rating_2_count;
+            $rating_3_count = $rating_table->rating_3_count;
+            $rating_4_count = $rating_table->rating_4_count;
+            $rating_5_count = $rating_table->rating_5_count;
+            $total_rating = $rating_1_count + $rating_2_count + $rating_3_count + $rating_4_count + $rating_5_count;
+            $rating = (($rating_1_count * 1) + ($rating_2_count * 2) + ($rating_3_count * 3) + ($rating_4_count * 4) + ($rating_5_count * 5)) / $total_rating;
+            return $rating;
+        } else {
+            return "Rating not available";
+        }
+    }
 }

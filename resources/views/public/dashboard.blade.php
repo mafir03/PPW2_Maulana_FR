@@ -34,7 +34,7 @@
                         <td>{{ "Rp ".number_format($buku->harga, 0, ',', '.') }}</td>
                         <td>{{ \Carbon\Carbon::parse($buku->tgl_terbit)->format('d-m-Y') }}</td>
                         <td>
-                            <a class="btn btn-primary" href="{{ route('public.galeri-buku', $buku->judul) }}">Galeri</a>
+                            <a class="btn btn-primary" href="{{ route('public.galeri-buku', $buku->id) }}">Galeri</a>
                         </td>
                     </tr>
                 @endforeach

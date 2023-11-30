@@ -40,7 +40,8 @@ Route::middleware('auth')->group(function () {
     });
     Route::get('/dashboard/search', [BukuController::class, 'search'])->name('buku.search');
     Route::get('/galeri-buku/{id}',[BukuController::class, 'galeriBuku'])->name('galeri-buku');
-
+    Route::post('/galeri-buku/rating/{bukuId}',[BukuController::class, 'setRating'])->name('setrating');
+    Route::get("/galeri-buku/rating/{bukuId}",[BukuController::class, 'getRating'])->name('getRating');
 });
 
 require __DIR__.'/auth.php';

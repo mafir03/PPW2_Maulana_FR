@@ -64,7 +64,7 @@
                             </td>
                         @endif
                         <td>
-                            <a class="btn btn-primary" href="{{ route('galeri-buku', $buku->judul) }}">Galeri</a>
+                            <a class="btn btn-primary" href="{{ route('galeri-buku', $buku->id) }}">Galeri</a>
                         </td>
                     </tr>
                 @endforeach
