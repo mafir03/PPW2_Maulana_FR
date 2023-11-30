@@ -4,7 +4,7 @@
     <x-slot name="header">
           <div class="container row">
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight col-2">
-                <a class="nav-link" href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
+                <a href="{{ route('dashboard') }}">{{ __('Dashboard') }}</a>
             </h2>
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight col-2">
                 {{ __('Favorite') }}
