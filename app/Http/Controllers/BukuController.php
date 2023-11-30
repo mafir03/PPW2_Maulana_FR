@@ -25,6 +25,12 @@ class BukuController extends Controller
         return view('dashboard', compact('data_buku', 'no', 'row_amount', 'price_amount', 'jumlah_buku'));
     }
 
+    public function galeriBuku($title) {
+        $buku = Buku::where('judul', $title)->first();
+        $galleries = $buku->photos()->orderBy('id', 'desc')->paginate(6);
+        return view('buku.galeri-buku', compact('buku', 'galleries'));
+    }
+
     public function publicIndex()
     {
         $batas = 7;
@@ -34,6 +40,12 @@ class BukuController extends Controller
         $price_amount = Buku::sum('harga');
         $no = $batas * ($data_buku->currentPage() - 1);
         return view('public.dashboard', compact('data_buku', 'no', 'row_amount', 'price_amount', 'jumlah_buku'));
+    }
+
+    public function publicGaleriBuku($title) {
+        $buku = Buku::where('judul', $title)->first();
+        $galleries = $buku->photos()->orderBy('id', 'desc')->paginate(6);
+        return view('public.galeri-buku', compact('buku', 'galleries'));
     }
     /**
      * Show the form for creating a new resource.
@@ -181,9 +193,5 @@ class BukuController extends Controller
     }
     
 
-    public function galeriBuku($title) {
-        $buku = Buku::where('judul', $title)->first();
-        $galleries = $buku->photos()->orderBy('id', 'desc')->paginate(6);
-        return view('public.galeri-buku', compact('buku', 'galleries'));
-    }
+
 }

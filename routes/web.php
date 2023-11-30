@@ -21,7 +21,7 @@ Route::get('/', function () {
 });
 
 Route::get('/public/dashboard', [BukuController::class, 'publicIndex'])->name('public.dashboard');
-Route::get('/public/galeri-buku/{id}', [BukuController::class, 'galeriBuku'])->name('public.galeri-buku');
+Route::get('/public/galeri-buku/{id}', [BukuController::class, 'publicGaleriBuku'])->name('public.galeri-buku');
 
 
 Route::get('/dashboard',[BukuController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/dashboard/destroy/gallery/{id}',[GalleryController::class, 'destroy'])->name("gallery.destroy");
     });
     Route::get('/dashboard/search', [BukuController::class, 'search'])->name('buku.search');
+    Route::get('/galeri-buku/{id}',[BukuController::class, 'galeriBuku'])->name('galeri-buku');
 
 });
 

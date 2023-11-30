@@ -33,6 +33,7 @@
                     <th>Hapus</th>
                     <th>Update</th>
                 @endif
+                <th>Galeri</th>
             </thead>
             <tbody>
                 @foreach($data_buku as $buku)
@@ -62,6 +63,9 @@
                                 <a class="btn btn-primary" href="{{ route('buku.edit', $buku->id) }}">Update</a>
                             </td>
                         @endif
+                        <td>
+                            <a class="btn btn-primary" href="{{ route('galeri-buku', $buku->judul) }}">Galeri</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
