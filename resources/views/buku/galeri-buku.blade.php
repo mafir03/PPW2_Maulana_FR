@@ -17,10 +17,22 @@
     <x-slot name="content">
         <section id="album" class="py-1 text-center">
             <div class="container">
+                @if(session('pesan'))
+                <div class="alert alert-danger">
+                    {{ session('pesan') }}
+                </div>
+                @endif
                 <h1 id="text" style="font-size: 2em;">
                     Buku: {{$buku->judul}}
                     Rating: {{ app('App\Http\Controllers\BukuController')->getRating($buku->id) }}
                 </h1>
+                <div class="container mt-4 mb-4">
+                    <form method="post" action="{{ route('setFavorite')}}">
+                        @csrf
+                        <input type="hidden" name="buku_id" value="{{$buku->id}}">
+                        <button type="submit" class="btn btn-outline-primary">Add to Favorite</button>
+                    </form>
+                </div>
                 <div class="container">
                     <div class="row">
                         @foreach($buku->galleries()->get() as $gallery)

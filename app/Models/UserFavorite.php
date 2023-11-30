@@ -12,4 +12,9 @@ class UserFavorite extends Model
     protected $table = 'user_favorite';
 
     protected $fillable = ['buku_id', 'user_id'];
+
+    public function userFavorite()  
+    {
+        return $this->belongsTo(User::class);
+    }
 }

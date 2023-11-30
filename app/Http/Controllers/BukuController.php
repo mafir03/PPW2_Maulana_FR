@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Buku;
 use App\Models\BukuRating;
 use App\Models\Gallery;
+use App\Models\UserFavorite;
 use Exception;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -48,6 +49,13 @@ class BukuController extends Controller
         $buku = Buku::where('id', $id)->first();
         $galleries = $buku->photos()->orderBy('id', 'desc')->paginate(6);
         return view('public.galeri-buku', compact('buku', 'galleries'));
+    }
+
+    public function favorite() {
+        $user = auth()->user()->id;
+        $favorite = UserFavorite::where('user_id', $user)->get();
+        $favorites = Buku::whereIn('id', $favorite->pluck('buku_id'))->get();
+        return view('buku.buku-favorite', compact('favorites'));
     }
     /**
      * Show the form for creating a new resource.
@@ -276,6 +284,21 @@ class BukuController extends Controller
             return $rating;
         } else {
             return "Rating not available";
+        }
+    }
+
+    public function setFavorite(Request $request) {
+        $bukuId = $request->input('buku_id');
+        $user = auth()->user();
+        $favorite_table = UserFavorite::where('buku_id', $bukuId)->first();
+        if(!$favorite_table){
+            UserFavorite::create([
+                'user_id' => $user->id,
+                'buku_id' => $bukuId,
+            ]);
+            return redirect()->back()->with('pesan', 'Buku berhasil ditambahkan ke favorite');
+        }  else {
+            return redirect()->back()->with('pesan', 'Buku sudah ada di favorite');
         }
     }
 }

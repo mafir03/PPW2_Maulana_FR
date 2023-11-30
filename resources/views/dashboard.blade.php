@@ -1,11 +1,16 @@
 <x-app-layout>
     <x-slot name="dashboard">
-        @include('layouts.navigation')
     </x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        <div class="container row">
+            
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight col-2">
             {{ __('Dashboard') }}
         </h2>
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight col-2">
+            <a class="nav-link" href="{{ route('buku.favorite') }}">{{ __('Favorite') }}</a>
+        </h2>
+        </div>
     </x-slot>
     <x-slot name="content">
         <div class="container row">
