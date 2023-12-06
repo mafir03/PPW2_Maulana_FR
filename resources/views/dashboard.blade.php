@@ -1,5 +1,6 @@
 <x-app-layout>
     <x-slot name="dashboard">
+        @include('layouts.navigation')
     </x-slot>
     <x-slot name="header">
         <div class="container row">

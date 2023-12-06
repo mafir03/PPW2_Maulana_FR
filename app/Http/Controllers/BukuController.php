@@ -298,7 +298,15 @@ class BukuController extends Controller
             ]);
             return redirect()->back()->with('pesan', 'Buku berhasil ditambahkan ke favorite');
         }  else {
-            return redirect()->back()->with('pesan', 'Buku sudah ada di favorite');
+            if($favorite_table->user_id == $user->id) {
+                return redirect()->back()->with('pesan', 'Buku sudah ada di favorite'); 
+            } else {
+                UserFavorite::create([
+                    'user_id' => $user->id,
+                    'buku_id' => $bukuId,
+                ]);
+                return redirect()->back()->with('pesan', 'Buku berhasil ditambahkan ke favorite');
+            }
         }
     }
 }

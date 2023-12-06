@@ -45,36 +45,29 @@
                     </div>
                 </div>
                 </div>
+            <div class="container mt-4">
+                <p>Choose a rating (1-5): </p>
+                <form method="post" action="{{ route('setrating', $buku->id) }}">
+                    @csrf
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-4"></div>
+                            <div class="col-4 mt-4 mb-4">
+                                <select class="form-control" name="rating" id="rating">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-primary">Submit</button>
+                </form>
             </div>
+            </div>
+            
         </section>
-        <div class="container mt-4">
-            <p>Choose a rating (1-5): </p>
-            <form method="post" action="{{ route('setrating', $buku->id) }}">
-                @csrf
-                <div class="form-group">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="rating" id="rating1" value="1">
-                        <label class="form-check-label" for="rating1">1</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="rating" id="rating2" value="2">
-                        <label class="form-check-label" for="rating2">2</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="rating" id="rating3" value="3">
-                        <label class="form-check-label" for="rating3">3</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="rating" id="rating4" value="4">
-                        <label class="form-check-label" for="rating4">4</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="rating" id="rating5" value="5">
-                        <label class="form-check-label" for="rating5">5</label>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-outline-primary">Submit</button>
-            </form>
-        </div>
     </x-slot>
 </x-app-layout>
