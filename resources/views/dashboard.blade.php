@@ -1,17 +1,12 @@
 <x-app-layout>
     <x-slot name="dashboard">
-        @include('layouts.navigation')
+        @if(Auth::user()->role == 'admin')
+            @include('layouts.navigation-admin')
+        @else
+            @include('layouts.navigation')
+        @endif
     </x-slot>
     <x-slot name="header">
-        <div class="container row">
-            
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight col-2">
-            {{ __('Dashboard') }}
-        </h2>
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight col-2">
-            <a href="{{ route('buku.favorite') }}">{{ __('Favorite') }}</a>
-        </h2>
-        </div>
     </x-slot>
     <x-slot name="content">
         <div class="container row">
@@ -27,29 +22,31 @@
                 </form>
             </div>
         </div>
-        <table class="table table-sm table-striped table-condensed">
+        <table class="table table-striped table-hover table-bordered table-responsive mt-3">
             <thead>
-                <th>NO</th>
-                <th>Gambar</th>
-                <th>Judul Buku</th>
-                <th>Penulis</th>
-                <th>Harga</th>
-                <th>Tgl. Terbit</th>
-                @if(Auth::user()->role == 'admin')
-                    <th>Hapus</th>
-                    <th>Update</th>
-                @endif
-                <th>Galeri</th>
+                <tr>
+                    <th scope="col">NO</th>
+                    <th scope="col">Gambar</th>
+                    <th scope="col">Judul Buku</th>
+                    <th scope="col">Penulis</th>
+                    <th scope="col">Harga</th>
+                    <th scope="col">Tgl. Terbit</th>
+                    @if(Auth::user()->role == 'admin')
+                        <th scope="col">Hapus</th>
+                        <th scope="col">Update</th>
+                    @endif
+                    <th scope="col">Galeri</th>
+                </tr>
             </thead>
             <tbody>
                 @foreach($data_buku as $buku)
                     <tr>
-                        <td>{{ ++$no }}</td>
+                        <th scope="row">{{ ++$no }}</th>
                         <td>
                             @if($buku->filepath)
-                                <div class="relative h-10 w-10">
-                                    <img class="absolute h-10 w-10 rounded-full object-cover"
-                                     src="{{ $buku->filepath }}" alt="">
+                                <div class="relative h-10 w-full">
+                                    <img class="absolute h-full w-full rounded-full object-cover"
+                                        src="{{ $buku->filepath }}" alt="">
                                 </div>
                             @endif
                         </td>
@@ -61,28 +58,27 @@
                             <td>
                                 <form action="{{ route('buku.destroy', $buku->id) }}" method="post">
                                     @csrf
-                                    <button class="btn btn-primary" 
-                                    onclick="return confirm('Yakin mau diapus?')">Hapus</button>
+                                    <button class="btn btn-danger btn-sm" onclick="return confirm('Yakin mau dihapus?')">Hapus</button>
                                 </form>
                             </td>
                             <td>
-                                <a class="btn btn-primary" href="{{ route('buku.edit', $buku->id) }}">Update</a>
+                                <a class="btn btn-primary btn-sm" href="{{ route('buku.edit', $buku->id) }}">Update</a>
                             </td>
                         @endif
                         <td>
-                            <a class="btn btn-primary" href="{{ route('galeri-buku', $buku->id) }}">Galeri</a>
+                            <a class="btn btn-primary btn-sm" href="{{ route('galeri-buku', $buku->id) }}">Galeri</a>
                         </td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
         <div class="container-fluid row">
-            <div class="col-6">{{$data_buku->links()}}</div>
             <div class="col-6"><strong>Jumlah buku : {{$jumlah_buku}}</strong></div>
+            <div class="col-6">{{$data_buku->links()}}</div>
         </div>
         <div class="container row">
             <h3 class="col-6">Jumlah baris di tabel: {{$row_amount}}</h3>
-            <h3 class="col-6">Jumlah semua harga buku: {{$price_amount}}</h3>
+            <h3 class="col-6" align="right">Jumlah semua harga buku: {{$price_amount}}</h3>
         </div>
         <script type="text/javascript">
                 $('.date').datepicker({

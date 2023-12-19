@@ -9,16 +9,22 @@
     <x-slot name="header">
     </x-slot>
     <x-slot name="content">
-    <table class="table table-sm table-striped table-condensed">
+        <table class="table table-sm table-striped table-condensed">
             <thead>
                 <th>Judul buku</th>
                 <th>Penulis</th>
+                <th>Rating</th>
             </thead>
             <tbody>
-                @foreach($favorites as $favorite)
+                @foreach($buku_rating as $rating)
                 <tr>
-                    <td>{{ $favorite->judul }}</td>
-                    <td>{{ $favorite->penulis }}</td>
+                    <td>{{ $rating->buku->judul }}</td>
+                    <td>{{ $rating->buku->penulis }}</td>
+                    <!-- calculate the rating and put them here -->
+                    @php
+                        $book_rating = app('App\Http\Controllers\BukuController')->getRating($rating->buku->id);
+                    @endphp
+                    <td>{{ $book_rating }}</td>
                 </tr>
                 @endforeach
             </tbody>

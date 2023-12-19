@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get("/galeri-buku/rating/{bukuId}",[BukuController::class, 'getRating'])->name('getRating');
 
+    Route::get('/buku-populer',[BukuController::class, 'bukuPopuler'])->name('buku.populer');
 
     Route::post('/galeri-buku/favorite',[BukuController::class, 'setFavorite'])->name('setFavorite');
 

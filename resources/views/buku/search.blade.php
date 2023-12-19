@@ -1,9 +1,12 @@
 <x-app-layout>
-    <x-slot name="dashboard"></x-slot>
+    <x-slot name="dashboard">
+        @if(Auth::user()->role == 'admin')
+            @include('layouts.navigation-admin')
+        @else
+            @include('layouts.navigation')
+        @endif
+    </x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
     </x-slot>
     <x-slot name="content"> 
         @if(count($data_buku))
@@ -17,7 +20,7 @@
                     <input type="text" name="kata" class="form-control" placeholder="Cari buku .." style="width: 30%; float: right">
                 </form>
             </div>
-            <table class="table table-sm table-striped table-condensed">
+            <table class="table table-striped table-hover table-bordered table-responsive mt-3">
                 <thead>
                     <th>NO</th>
                     <th>Judul Buku</th>
@@ -50,13 +53,12 @@
                 </tbody>
             </table>
             <div class="container-fluid row">
-                <div class="col-6">{{$data_buku->links()}}</div>
                 <div class="col-6"><strong>Jumlah buku : {{$jumlah_buku}}</strong></div>
+                <div class="col-6">{{$data_buku->links()}}</div>
             </div>
             <div class="container row">
                 <h3 class="col-6">Jumlah baris di tabel: {{$row_amount}}</h3>
-                <h3 class="col-6">Jumlah semua harga buku: {{$price_amount}}</h3>
-                <p><a href="{{ route('buku.create') }}">Tambah Buku</a></p>
+                <h3 class="col-6" align="right">Jumlah semua harga buku: {{$price_amount}}</h3>
             </div>
             @else
                 <div class="alert alert-warning"><h4>Data {{ $cari } tidak ditemukan}</h4>

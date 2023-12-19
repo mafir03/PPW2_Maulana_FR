@@ -57,6 +57,23 @@ class BukuController extends Controller
         $favorites = Buku::whereIn('id', $favorite->pluck('buku_id'))->get();
         return view('buku.buku-favorite', compact('favorites'));
     }
+
+    public function bukuPopuler() {
+        $batas = 10;
+        $buku_rating = BukuRating::all();
+        $buku_rating = $buku_rating->sortByDesc(function($buku) {
+            $rating_1_count = $buku->rating_1_count;
+            $rating_2_count = $buku->rating_2_count;
+            $rating_3_count = $buku->rating_3_count;
+            $rating_4_count = $buku->rating_4_count;
+            $rating_5_count = $buku->rating_5_count;
+            $total_rating = $rating_1_count + $rating_2_count + $rating_3_count + $rating_4_count + $rating_5_count;
+            $rating = (($rating_1_count * 1) + ($rating_2_count * 2) + ($rating_3_count * 3) + ($rating_4_count * 4) + ($rating_5_count * 5)) / $total_rating;
+            return $rating;
+        });
+        $buku_rating = $buku_rating->take($batas);
+        return view('buku.buku-populer', compact('buku_rating'));
+    }
     /**
      * Show the form for creating a new resource.
      */

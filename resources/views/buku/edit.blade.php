@@ -1,9 +1,8 @@
 <x-app-layout>
-    <x-slot name="dashboard"></x-slot>
+    <x-slot name="dashboard">
+        @include('layouts.navigation-admin')
+    </x-slot>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
     </x-slot>
     <x-slot name="content">
         @if(session('pesan'))
@@ -35,6 +34,10 @@
                     <div>File Name</div>
                     <input type="file" class="btn btn-outline-primary" id="thumbnail" name="thumbnail" placeholder="Thumbnail">
                 </div>
+
+                
+
+
                 <div class="mt-2 mb-2">
                     <button type="submit" class="btn btn-outline-primary">Simpan</button>
                     <a class="btn btn-outline-primary"href="/dashboard">Batal</a>
