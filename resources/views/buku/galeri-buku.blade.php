@@ -109,8 +109,20 @@
                     <button type="submit" class="btn btn-outline-primary">Submit</button>
                 </form>
             </div>
-            </div>
-            
+
+        </div>
+        <div class="container-fluid mt-4">
+            <p>Make your review here:</p>
+            <form method="post">
+                @csrf
+                <div class="row w-100">
+                    <div class="form-group">
+                        <input type="text" name="review" class="form-control">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-primary mt-2 mb-2">Submit</button>
+            </form>
+        </div>
         </section>
     </x-slot>
 </x-app-layout>

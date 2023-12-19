@@ -49,10 +49,12 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/galeri-buku/favorite',[BukuController::class, 'setFavorite'])->name('setFavorite');
 
+    Route::get('/buku/kategori',[BukuController::class, 'bukuKategori'])->name('buku.kategori');
+    Route::get('/buku/kategori/search',[BukuController::class, 'kategoriSearch'])->name('buku.kategoriSearch');
 
-    
+
     Route::get('/buku/favorite', [BukuController::class, 'favorite'])->name('buku.favorite');
-
+    
 });
 
 require __DIR__.'/auth.php';

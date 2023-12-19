@@ -2,7 +2,7 @@
     <x-slot name="dashboard">
         @if(Auth::user()->role == 'admin')
             @include('layouts.navigation-admin')
-        @else
+        @elseif(Auth::user()->role == 'users')
             @include('layouts.navigation')
         @endif
     </x-slot>

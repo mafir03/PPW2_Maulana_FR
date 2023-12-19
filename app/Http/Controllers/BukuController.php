@@ -6,6 +6,7 @@ use App\Models\Buku;
 use App\Models\BukuRating;
 use App\Models\Gallery;
 use App\Models\UserFavorite;
+use App\Models\BukuCategory;
 use Exception;
 use Illuminate\Http\Request;
 use Intervention\Image\Facades\Image;
@@ -74,6 +75,26 @@ class BukuController extends Controller
         $buku_rating = $buku_rating->take($batas);
         return view('buku.buku-populer', compact('buku_rating'));
     }
+
+    public function bukuKategori() {
+        return view('buku.buku-kategori');
+    }
+
+    public function kategoriSearch(Request $request)
+    {
+        $batas = 7;
+        $kategori = $request->kategori;
+        $bukuCategories = BukuCategory::where('kategori', $kategori)->get();
+        $bukuIds = $bukuCategories->pluck('buku_id');
+        $data_buku = Buku::whereIn('id', $bukuIds)->paginate($batas);
+        $no = $batas * ($data_buku->currentPage() - 1);
+        $jumlah_buku = $data_buku->total();
+        $row_amount = Buku::count();
+        $price_amount = Buku::sum('harga');
+
+        return view('buku.buku-kategori-search', compact('data_buku', 'no', 'jumlah_buku', 'kategori', 'row_amount', 'price_amount'));
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -131,7 +152,17 @@ class BukuController extends Controller
                     'buku_id' => $id
                 ]);
             }
-        } return redirect('/dashboard')->with('pesan', 'Data buku berhasil disimpan');
+        } 
+        
+        $categories = $request->input("kategori", []);
+
+        foreach($categories as $category) {
+            BukuCategory::create([
+                'buku_id' => $id,
+                'kategori' => $category
+            ]);
+        };
+        return redirect('/dashboard')->with('pesan', 'Data buku berhasil disimpan');
     }
 
     /**
@@ -194,6 +225,16 @@ class BukuController extends Controller
                 ]);
             }
         }
+
+        $categories = $request->input("kategori", []);
+
+        foreach($categories as $category) {
+            BukuCategory::create([
+                'buku_id' => $id,
+                'kategori' => $category
+            ]);
+        };
+    
         return redirect('/dashboard')->with('pesan', 'Data buku berhasil diupdate');
     }
 

@@ -26,4 +26,8 @@ class Buku extends Model
     public function ratings() : HasMany {
         return $this->hasMany(BukuRating::class);
     }
+
+    public function categories() : HasMany {
+        return $this->hasMany(BukuCategory::class);
+    }
 }

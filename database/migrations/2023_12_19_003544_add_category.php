@@ -19,6 +19,7 @@ return new class extends Migration
                 ->on('buku')
                 ->onDelete('cascade');
             $table->string('kategori');
+            $table->timestamps();
         });
     }
 
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('buku_kategori');
     }
 };

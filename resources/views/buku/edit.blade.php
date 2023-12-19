@@ -30,12 +30,27 @@
                     <label for="tgl_terbit">Tgl. Terbit</label>
                     <input type="date" class="form-control" id="tgl_terbit" name="tgl_terbit" placeholder="Tgl. Terbit buku" value="{{$buku->tgl_terbit}}">
                 </div>
+                <div class=form-group">
+                <label for="kategori">Kategori (ctrl+click untuk memilih opsi lain)</label>
+                <select class="form-select" name = "kategori[]" multiple>
+                    <option selected>Pilih Kategori</option>
+                    <option value="Sci-fi">Sci-fi</option>
+                    <option value="Horror">Horror</option>
+                    <option value="Romance">Romance</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Action">Action</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Fantasy">Fantasy</option>
+                    <option value="Mystery">Mystery</option>
+                </select>
+                </div>
+
                 <div class="mt-2">
                     <div>File Name</div>
                     <input type="file" class="btn btn-outline-primary" id="thumbnail" name="thumbnail" placeholder="Thumbnail">
                 </div>
 
-                
+
 
 
                 <div class="mt-2 mb-2">
